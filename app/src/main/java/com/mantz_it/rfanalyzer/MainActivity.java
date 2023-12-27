@@ -1,5 +1,8 @@
 package com.mantz_it.rfanalyzer;
 
+import static com.mantz_it.rfanalyzer.R.id.action_startStop;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -267,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements IQSourceInterface
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		// Get a reference to the start-stop button:
-		mi_startStop = menu.findItem(R.id.action_startStop);
+		mi_startStop = menu.findItem(action_startStop);
 		mi_demodulationMode = menu.findItem(R.id.action_setDemodulation);
 		mi_record = menu.findItem(R.id.action_record);
 
@@ -276,43 +279,52 @@ public class MainActivity extends AppCompatActivity implements IQSourceInterface
 		return true;
 	}
 
+	@SuppressLint("NonConstantResourceId")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		switch (id) {
-			case R.id.action_startStop:		if(running)
-												stopAnalyzer();
-											else
-												startAnalyzer();
-											break;
-			case R.id.action_setDemodulation: showDemodulationDialog();
-											break;
-			case R.id.action_setFrequency:	tuneToFrequency();
-											break;
-			case R.id.action_setGain:		adjustGain();
-											break;
-			case R.id.action_autoscale:		analyzerSurface.autoscale();
-											break;
-			case R.id.action_record:		if(scheduler != null && scheduler.isRecording())
-												stopRecording();
-											else
-												showRecordingDialog();
-											break;
-			case R.id.action_bookmarks:		showBookmarksDialog();
-											break;
-			case R.id.action_settings:		Intent intentShowSettings = new Intent(getApplicationContext(), SettingsActivity.class);
-											startActivity(intentShowSettings);
-											break;
-			case R.id.action_help:			Intent intentShowHelp = new Intent(Intent.ACTION_VIEW);
-											intentShowHelp.setData(Uri.parse(getString(R.string.help_url)));
-											startActivity(intentShowHelp);
-											break;
-			case R.id.action_info:			showInfoDialog();
-											break;
-			default:
+
+		if (id==R.id.action_startStop) {
+			if(running)
+				stopAnalyzer();
+			else
+				startAnalyzer();
+		}
+		else if (id==R.id.action_setDemodulation) {
+			showDemodulationDialog();
+		}
+		else if (id==R.id.action_setFrequency) {
+			tuneToFrequency();
+		}
+		else if (id==R.id.action_setGain) {
+			adjustGain();
+		}
+		else if (id==R.id.action_autoscale) {
+			analyzerSurface.autoscale();
+		}
+		else if (id==R.id.action_record) {
+			if(scheduler != null && scheduler.isRecording())
+				stopRecording();
+			else
+				showRecordingDialog();
+		}
+		else if (id==R.id.action_bookmarks) {
+			showBookmarksDialog();
+		}
+		else if (id==R.id.action_settings) {
+			Intent intentShowSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+			startActivity(intentShowSettings);
+		}
+		else if (id==R.id.action_help) {
+			Intent intentShowHelp = new Intent(Intent.ACTION_VIEW);
+			intentShowHelp.setData(Uri.parse(getString(R.string.help_url)));
+			startActivity(intentShowHelp);
+		}
+		else if (id==R.id.action_info) {
+			showInfoDialog();
 		}
 		return true;
 	}
